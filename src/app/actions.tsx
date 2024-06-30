@@ -5,6 +5,7 @@ import { PriceSkeleton } from "@/components/llm-crypto/price-skeleton";
 import { Stats } from "@/components/llm-crypto/stats";
 import { StatsSkeleton } from "@/components/llm-crypto/stats-skeleton";
 import { env } from "@/env";
+import { sleep } from "@/lib/sleep";
 import { openai } from "@ai-sdk/openai";
 import type { CoreMessage, ToolInvocation } from "ai";
 import { createAI, getMutableAIState, streamUI } from "ai/rsc";
@@ -12,8 +13,6 @@ import { MainClient } from "binance";
 import { Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { z } from "zod";
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const binance = new MainClient({
   api_key: env.BINANCE_API_KEY,
@@ -229,8 +228,7 @@ export async function sendMessage(message: string): Promise<{
   return {
     id: Date.now(),
     role: "assistant" as const,
-    display: <p>Hello</p>,
-    // display: reply.value,
+    display: reply.value,
   };
 }
 // Define the AI state and UI state types
